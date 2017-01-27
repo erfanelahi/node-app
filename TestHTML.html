@@ -1,0 +1,26 @@
+<html>
+<head></head>
+<body>
+    <h1 style="color: mediumseagreen;">{{message}}</h1>
+    <form method="POST" action="/person">
+        First Name : <input type="text" id="firstName" name="firstName" value=""><br/>
+        Last Name : <input type="text" id="lastName" name="lastName" value="">
+        <input type="submit" value="Submit">
+    </form>
+    <img src="/content/nature.jpg" alt="Nature">
+    <ul>
+        <li class="product">4.94</li>
+        <li class="product">5.89</li>
+        <li class="product">3.76</li>
+        <li class="newProduct">9.13</li>
+        <li id="product">7.45</li>
+    </ul>
+    <script>
+        var nodeListTypeProducts = document.querySelectorAll(".product, .newProduct, #product");
+        console.log(nodeListTypeProducts);
+        var arrayTypeProducts = Array.from(nodeListTypeProducts);
+        console.log(arrayTypeProducts);
+        arrayTypeProducts.filter(p => parseFloat(p.innerHTML) > 5).forEach(i => i.style.color = 'red');
+    </script>
+</body>
+</html>
