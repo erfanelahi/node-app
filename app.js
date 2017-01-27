@@ -33,30 +33,30 @@
 // });
 // nodeEvent.emit("greet", "Erfan");
 // readFile / readFileSync / createReadStream / createWriteStream / pipe / createGzip
-var util = require("util");
-var fs = require("fs");
-var zlib = require("zlib");
-fs.readFile(`${__dirname}/CustomGreet.txt`, "utf8", function (err, data) {
-    if (err === null) {
-        util.log(util.format("Async Data: %s", data));
-    } else {
-        util.log(util.format("Async Error: %s", err));
-    }
-});
-var myGreetText = fs.readFileSync(`${__dirname}/CustomGreet.txt`, "utf8");
-util.log("Sync Data: " + myGreetText);
-var readable = fs.createReadStream(`${__dirname}/CustomGreet.txt`, {
-    encoding: "utf8",
-    highWaterMark: 5
-});
-var writable = fs.createWriteStream(`${__dirname}/CustomGreetCopy.txt`);
-var compressed = fs.createWriteStream(`${__dirname}/CustomGreetCopy.txt.gz`);
+// var util = require("util");
+// var fs = require("fs");
+// var zlib = require("zlib");
+// fs.readFile(`${__dirname}/CustomGreet.txt`, "utf8", function (err, data) {
+//     if (err === null) {
+//         util.log(util.format("Async Data: %s", data));
+//     } else {
+//         util.log(util.format("Async Error: %s", err));
+//     }
+// });
+// var myGreetText = fs.readFileSync(`${__dirname}/CustomGreet.txt`, "utf8");
+// util.log("Sync Data: " + myGreetText);
+// var readable = fs.createReadStream(`${__dirname}/CustomGreet.txt`, {
+//     encoding: "utf8",
+//     highWaterMark: 5
+// });
+// var writable = fs.createWriteStream(`${__dirname}/CustomGreetCopy.txt`);
+// var compressed = fs.createWriteStream(`${__dirname}/CustomGreetCopy.txt.gz`);
 // readable.on("data", function (chunk) {
 //     console.log("Length : " + chunk.length);
 //     writable.write("\nChunk : " + chunk);
 // });
-readable.pipe(writable);
-readable.pipe(zlib.createGzip()).pipe(compressed);
+// readable.pipe(writable);
+// readable.pipe(zlib.createGzip()).pipe(compressed);
 //****************************************** Node Server
 // var http = require("http");
 // http.createServer(function (request, response) {
@@ -88,6 +88,7 @@ readable.pipe(zlib.createGzip()).pipe(compressed);
 
 // }).listen(1230, '127.0.0.1');
 //****************************************** Express Server
+var fs = require("fs");
 var express = require('express');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
