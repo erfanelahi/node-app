@@ -146,7 +146,7 @@ app.post("/person", urlencodedParser, function (request, response) {
                 response.send(`<p style="color:red;">${err}</p><br/><a href="/">Go to Home</a>`);
             } else {
                 console.log("Successfully Saved.");
-                response.send("<p style='color:green;'>Successfully Saved.</p><br/><a href="/">Go to Home</a>");
+                response.send("<p style='color:green;'>Successfully Saved.</p><br/><a href='/'>Go to Home</a>");
             }
         });
     });
