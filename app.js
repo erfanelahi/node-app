@@ -143,14 +143,13 @@ app.post("/person", urlencodedParser, function (request, response) {
         newUser.save(function (err) {
             if (err) {
                 console.error('Insert Failed.');
-                //response.send(err);
+                response.send(err);
             } else {
                 console.log("Successfully Saved.");
-                //response.send("Successfully Saved.");
+                response.send("Successfully Saved.");
             }
         });
     });
-
 });
 app.listen(port, () => {
     console.log(`Server is up on port ${port}`);
