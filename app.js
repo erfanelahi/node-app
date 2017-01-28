@@ -1,6 +1,11 @@
+// var yargs = require("yargs");
 // var greet = require("./greet.js");
-// greet.MyPrintResult(greet.Multiply);
-// greet.MyPrintResult(function(){
+// // console.log(process.argv);
+// // console.log(process.env);
+// if (yargs.argv.env === 'prod') {
+//     greet.MyPrintResult(greet.Multiply);
+// }
+// greet.MyPrintResult(function () {
 //     return 9.81 / 3.1416;
 // });
 //****************************************** Events / Emitter 
