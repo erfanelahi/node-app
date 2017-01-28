@@ -129,6 +129,7 @@ app.post("/person", urlencodedParser, function (request, response) {
         response.send(err);
     });
     conn.once('open', function () {
+        console.log('Connection Successful.');
         var Schema = mongoose.Schema;
         var userSchema = new Schema({
             firstName: String,
