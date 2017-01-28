@@ -150,4 +150,6 @@ app.post("/person", urlencodedParser, function (request, response) {
     });
 
 });
-app.listen(port);
+app.listen(port, () => {
+    console.log(`Server is up on port ${port}`);
+});
