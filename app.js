@@ -126,7 +126,7 @@ app.post("/person", urlencodedParser, function (request, response) {
     var conn = mongoose.connection;
     conn.on('error', function (err) {
         console.error('Connection error.');
-        response.send(err);
+        //response.send(err);
     });
     conn.once('open', function () {
         console.log('Connection Successful.');
@@ -143,9 +143,10 @@ app.post("/person", urlencodedParser, function (request, response) {
         newUser.save(function (err) {
             if (err) {
                 console.error('Insert Failed.');
-                response.send(err);
+                //response.send(err);
             } else {
-                response.send("Successfully Saved.");
+                console.log("Successfully Saved.");
+                //response.send("Successfully Saved.");
             }
         });
     });
