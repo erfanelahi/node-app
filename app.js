@@ -124,10 +124,10 @@ app.post("/person", urlencodedParser, function (request, response) {
     var mongooseConnectString = mongodbUri.formatMongoose('mongodb://erfanelahi:aaa111@ds157258.mlab.com:57258/mydb');
     mongoose.connect(mongooseConnectString);
     var conn = mongoose.connection;
-    // conn.on('error', function (err) {
-    //     console.error('Connection error.');
-    //     response.send(err);
-    // });
+    conn.on('error', function (err) {
+        console.error('Connection error.');
+        response.send(`<p style="color:red;">${err}</p><br/><a href="/">Go to Home</a>`);
+    });
     conn.once('open', function () {
         console.log('Connection Successful.');
         var Schema = mongoose.Schema;
@@ -143,10 +143,10 @@ app.post("/person", urlencodedParser, function (request, response) {
         newUser.save(function (err) {
             if (err) {
                 console.error('Insert Failed.');
-                response.send(err);
+                response.send(`<p style="color:red;">${err}</p><br/><a href="/">Go to Home</a>`);
             } else {
                 console.log("Successfully Saved.");
-                response.send("Successfully Saved.");
+                response.send("<p style='color:green;'>Successfully Saved.</p><br/><a href="/">Go to Home</a>");
             }
         });
     });
