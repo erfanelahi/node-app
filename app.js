@@ -125,27 +125,29 @@ app.get("/person", function (request, response) {
     }
     response.json(obj);
 });
+var Schema = mongoose.Schema;
+var userSchema = new Schema({
+    firstName: String,
+    lastName: String
+});
+var User = mongoose.model("User", userSchema);
 app.post("/person", urlencodedParser, function (request, response) {
     var mongooseConnectString = mongodbUri.formatMongoose('mongodb://erfanelahi:aaa111@ds157258.mlab.com:57258/mydb');
     mongoose.connect(mongooseConnectString);
     var conn = mongoose.connection;
     conn.on('error', function (err) {
         console.error('Connection error.');
+        conn.close();
         response.send(`<p style="color:red;">${err}</p><br/><a href="/">Go to Home</a>`);
     });
     conn.once('open', function () {
         console.log('Connection Successful.');
-        var Schema = mongoose.Schema;
-        var userSchema = new Schema({
-            firstName: String,
-            lastName: String
-        });
-        var User = mongoose.model("User", userSchema);
         var newUser = User({
             firsName: request.body.firstName,
             lastName: request.body.lastName
         });
         newUser.save(function (err) {
+            conn.close();
             if (err) {
                 console.error('Insert Failed.');
                 response.send(`<p style="color:red;">${err}</p><br/><a href="/">Go to Home</a>`);
