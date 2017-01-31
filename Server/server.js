@@ -27,7 +27,6 @@ var signUp_login_Schema = new Schema({
     userName: String,
     password: String
 });
-
 var SignUpLogin = mongoose.model("SignUpLogin", signUp_login_Schema);
 
 app.post("/signup", urlencodedParser, function (request, response) {
