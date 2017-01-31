@@ -1,0 +1,32 @@
+<html>
+
+<head>
+<style>
+ html {
+    background: url("/content/nature.jpg") no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+</style>
+</head>
+<body>
+
+     <fieldset>
+        <h1>Sigh Up</h1>
+        <form method="POST" action="/signup" style="margin: 0 auto; width: 50px;">
+                <input type="text" placeholder="User Name" id="userName" name="userName" value=""><br/> 
+                <input type="password" placeholder="Password" id="password" name="password" value=""><br/> 
+                <input type="submit" value="Sign Up">
+        </form>
+        <h1>Login</h1>
+        <form method="POST" action="/login" style="margin: 300px auto; width: 50px;">
+                <input type="text" placeholder="User Name" id="userName" name="userName" value=""><br/> 
+                <input type="password" placeholder="Password" id="password" name="password" value=""><br/> 
+                <input type="submit" value="Login">
+        </form>
+    </fieldset>
+</body>
+
+</html>
