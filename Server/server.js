@@ -70,14 +70,28 @@ app.post("/login", urlencodedParser, function (request, response) {
             }
             if (signUpLogin) {
                 console.log("Log In Successful.");
-                response.send(`<p style='color:green;'>Welcome ${signUpLogin.userName}, Log In Successful.</p><br/><a href='/'>Go to Home</a>`);
+                response.writeHead(302, {
+                    'Location': '/welcome'
+                });
+                response.end();
             }
             else {
                 console.error("Log In Failed");
-                response.send(`<p style="color:red;">Log In Failed</p><br/><a href="/">Go to Home</a>`);
+                 response.writeHead(401, {
+                    'Location': '/failed'
+                });
+                response.end();
             }
         });
     });
+});
+app.get("/welcome", function (request, response) {
+    var html = fs.readFileSync(`${__dirname}/welcome.html`, "utf8");
+    response.send(html);
+});
+app.get("/failed", function (request, response) {
+    var html = fs.readFileSync(`${__dirname}/failed.html`, "utf8");
+    response.send(html);
 });
 
 app.listen(port, () => {
