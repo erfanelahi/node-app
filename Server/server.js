@@ -23,58 +23,58 @@ var signUp_login_Schema = new Schema({
     userName: String,
     password: String
 });
-var SignUp = mongoose.model("SignUp", signUp_login_Schema);
+var SignUpLogin = mongoose.model("SignUpLogin", signUp_login_Schema);
 app.post("/signup", urlencodedParser, function (request, response) {
     var mongooseConnectString = mongodbUri.formatMongoose('mongodb://erfanelahi:aaa111@ds157258.mlab.com:57258/mydb');
     mongoose.connect(mongooseConnectString);
     var conn = mongoose.connection;
     conn.on('error', function (err) {
-        console.error('Connection error.');
+        console.error('Connection Error.');
         conn.close();
         response.send(`<p style="color:red;">${err}</p><br/><a href="/">Go to Home</a>`);
     });
     conn.once('open', function () {
         console.log('Connection Successful.');
-        var newSignUp = SignUp({
+        var newSignUpLogin = SignUpLogin({
             userName: request.body.userName,
             password: request.body.password
         });
-        newSignUp.save(function (err) {
+        newSignUpLogin.save(function (err) {
             conn.close();
             if (err) {
                 console.error('Insert Failed.');
                 response.send(`<p style="color:red;">${err}</p><br/><a href="/">Go to Home</a>`);
             } else {
-                console.log("New user successfully created.");
+                console.log("New User Successfully Created.");
                 response.send("<p style='color:green;'>New user successfully created.</p><br/><a href='/'>Go to Home</a>");
             }
         });
     });
 });
-var Login = mongoose.model("Login", signUp_login_Schema);
 app.post("/login", urlencodedParser, function (request, response) {
     var mongooseConnectString = mongodbUri.formatMongoose('mongodb://erfanelahi:aaa111@ds157258.mlab.com:57258/mydb');
     mongoose.connect(mongooseConnectString);
     var conn = mongoose.connection;
     conn.on('error', function (err) {
-        console.error('Connection error.');
+        console.error('Connection Error.');
         conn.close();
         response.send(`<p style="color:red;">${err}</p><br/><a href="/">Go to Home</a>`);
     });
     conn.once('open', function () {
         console.log('Connection Successful.');
-        var newLogin = Login({
-            userName: request.body.userName,
-            password: request.body.password
-        });
-        newLogin.save(function (err) {
+        SignUpLogin.findOne({ 'userName': request.body.userName, 'password': request.body.password }, 'userName password', function (err, signUpLogin) {
             conn.close();
             if (err) {
-                console.error('Insert Failed.');
-                response.send(`<p style="color:red;">${err}</p><br/><a href="/">Go to Home</a>`);
-            } else {
-                console.log("Successfully Saved.");
-                response.send("<p style='color:green;'>Successfully Saved.</p><br/><a href='/'>Go to Home</a>");
+                console.error('Something Went Wrong.');
+                return response.send(`<p style="color:red;">${err}</p><br/><a href="/">Go to Home</a>`);
+            }
+            if (signUpLogin) {
+                console.log("Log In Successful.");
+                response.send(`<p style='color:green;'>Welcome ${signUpLogin.userName}, Log In Successful.</p><br/><a href='/'>Go to Home</a>`);
+            }
+            else {
+                console.error("Log In Failed");
+                response.send(`<p style="color:red;">Log In Failed</p><br/><a href="/">Go to Home</a>`);
             }
         });
     });
