@@ -83,7 +83,7 @@ app.post("/login", urlencodedParser, function (request, response) {
             }
             else {
                 console.error("Log In Failed");
-                 response.writeHead(302, {
+                response.writeHead(302, {
                     'Location': '/failed'
                 });
                 response.end();
