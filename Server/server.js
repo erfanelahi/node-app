@@ -9,21 +9,27 @@ var urlencodedParser = bodyParser.urlencoded({
     extended: false
 });
 var port = process.env.PORT || 3000;
+
 app.use("/", function (req, res, next) {
     console.log("Request URL : " + req.url);
     next();
 });
+
 app.use("/content", express.static(__dirname + "/assets"));
+
 app.get("/", function (request, response) {
     var html = fs.readFileSync(`${__dirname}/index.html`, "utf8");
     response.send(html);
 });
+
 var Schema = mongoose.Schema;
 var signUp_login_Schema = new Schema({
     userName: String,
     password: String
 });
+
 var SignUpLogin = mongoose.model("SignUpLogin", signUp_login_Schema);
+
 app.post("/signup", urlencodedParser, function (request, response) {
     var mongooseConnectString = mongodbUri.formatMongoose('mongodb://erfanelahi:aaa111@ds157258.mlab.com:57258/mydb');
     mongoose.connect(mongooseConnectString);
@@ -51,6 +57,7 @@ app.post("/signup", urlencodedParser, function (request, response) {
         });
     });
 });
+
 app.post("/login", urlencodedParser, function (request, response) {
     var mongooseConnectString = mongodbUri.formatMongoose('mongodb://erfanelahi:aaa111@ds157258.mlab.com:57258/mydb');
     mongoose.connect(mongooseConnectString);
@@ -85,10 +92,12 @@ app.post("/login", urlencodedParser, function (request, response) {
         });
     });
 });
+
 app.get("/welcome", function (request, response) {
     var html = fs.readFileSync(`${__dirname}/welcome.html`, "utf8");
     response.send(html);
 });
+
 app.get("/failed", function (request, response) {
     var html = fs.readFileSync(`${__dirname}/failed.html`, "utf8");
     response.send(html);
