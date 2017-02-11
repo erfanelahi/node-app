@@ -1,4 +1,3 @@
-var fs = require("fs");
 var express = require('express');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
@@ -17,90 +16,8 @@ app.use("/", function (req, res, next) {
 
 app.use("/content", express.static(__dirname + "/assets"));
 
-app.get("/", function (request, response) {
-    var html = fs.readFileSync(`${__dirname}/index.html`, "utf8");
-    response.send(html);
-});
-
-var Schema = mongoose.Schema;
-var signUp_login_Schema = new Schema({
-    userName: String,
-    password: String
-});
-var SignUpLogin = mongoose.model("SignUpLogin", signUp_login_Schema);
-
-app.post("/signup", urlencodedParser, function (request, response) {
-    var mongooseConnectString = mongodbUri.formatMongoose('mongodb://erfanelahi:aaa111@ds157258.mlab.com:57258/mydb');
-    mongoose.connect(mongooseConnectString);
-    var conn = mongoose.connection;
-    conn.on('error', function (err) {
-        console.error('Connection Error.');
-        conn.close();
-        response.send(`<p style="color:red;">${err}</p><br/><a href="/">Go to Home</a>`);
-    });
-    conn.once('open', function () {
-        console.log('Connection Successful.');
-        var newSignUpLogin = SignUpLogin({
-            userName: request.body.userName,
-            password: request.body.password
-        });
-        newSignUpLogin.save(function (err) {
-            conn.close();
-            if (err) {
-                console.error('Insert Failed.');
-                response.send(`<p style="color:red;">${err}</p><br/><a href="/">Go to Home</a>`);
-            } else {
-                console.log("New User Successfully Created.");
-                response.send("<p style='color:green;'>New user successfully created.</p><br/><a href='/'>Go to Home</a>");
-            }
-        });
-    });
-});
-
-app.post("/login", urlencodedParser, function (request, response) {
-    var mongooseConnectString = mongodbUri.formatMongoose('mongodb://erfanelahi:aaa111@ds157258.mlab.com:57258/mydb');
-    mongoose.connect(mongooseConnectString);
-    var conn = mongoose.connection;
-    conn.on('error', function (err) {
-        console.error('Connection Error.');
-        conn.close();
-        response.send(`<p style="color:red;">${err}</p><br/><a href="/">Go to Home</a>`);
-    });
-    conn.once('open', function () {
-        console.log('Connection Successful.');
-        SignUpLogin.findOne({ 'userName': request.body.userName, 'password': request.body.password }, 'userName password', function (err, signUpLogin) {
-            conn.close();
-            if (err) {
-                console.error('Something Went Wrong.');
-                return response.send(`<p style="color:red;">${err}</p><br/><a href="/">Go to Home</a>`);
-            }
-            if (signUpLogin) {
-                console.log("Log In Successful.");
-                response.writeHead(302, {
-                    'Location': '/welcome'
-                });
-                response.end();
-            }
-            else {
-                console.error("Log In Failed");
-                response.writeHead(302, {
-                    'Location': '/failed'
-                });
-                response.end();
-            }
-        });
-    });
-});
-
-app.get("/welcome", function (request, response) {
-    var html = fs.readFileSync(`${__dirname}/welcome.html`, "utf8");
-    response.send(html);
-});
-
-app.get("/failed", function (request, response) {
-    var html = fs.readFileSync(`${__dirname}/failed.html`, "utf8");
-    response.send(html);
-});
+var routes = require("./routes");
+app.use(routes);
 
 app.listen(port, () => {
     console.log(`Server is up on port ${port}`);
