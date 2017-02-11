@@ -1,9 +1,7 @@
 var router = require("express").Router();
-var fs = require("fs");
 
 router.get("/", function (request, response) {
-    var html = fs.readFileSync(`${__dirname}/index.html`, "utf8");
-    response.send(html);
+    response.render("index.ejs", { message: "Hello World." });
 });
 
 module.exports = router;
